@@ -1,0 +1,36 @@
+*{
+        margin: 0;
+        padding: 0;
+}
+
+nav{
+	display: flex;
+	justify-content: space-around	;
+}
+.container{
+width: 1200px;
+margin: 0 auto;
+display:flex;
+flex-wrap:  wrap;
+justify-content: space-between;	
+}
+.book{
+	width: 	300px;
+	margin: 50px;	
+}
+.book img{
+	width: 	100%;
+}
+.book h5{
+	color: 	#f44336;
+}
+.book h5, p{
+padding: 0 5px;
+}
+.picture{
+	height: 450px;
+	overflow: 	hidden;
+}
+.btn{
+	margin: 50px;
+}
