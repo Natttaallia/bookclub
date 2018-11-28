@@ -1,81 +1,49 @@
 <?php 
-$count=9;
-if(isset($_GET["page"]))$page=$_GET["page"]-1;
-else $page=0;
-$start=$page*$count;
-$end=$start+$count;
-$data=require('src.small.php');
-if($end>count($data))$end=count($data);
-$page_count=ceil(count($data)/$count);	
- ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Books</title>
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-	<link rel="stylesheet" type="text/css" href="style.css">
-</head>
-<body>
-<nav>	
-	<a href="register.php" class="subbtn">Зарегистрироваться</a>
-	<a href="login.php" class="subbtn">Войти</a>
-</nav>
-<div class="container">
-<?php 	
-for ($i=$start; $i < $end; $i++) { 
- ?>
-<div class="z-depth-3 book">
-	<div class="picture">	
-<img src=<?=$data[$i]["image"]?>>
-	</div>
-<h5>Автор</h5>
-<p><?=$data[$i]["author"]?></p>	
-<h5>Название</h5>	
-<p><?=$data[$i]["title"]?></p>	
-<h5>Категория</h5>
-<p><?=$data[$i]["category"]?></p>	
-</div>
- <?php 	
-}
-  ?>
+include (__DIR__ . '/vendor/autoload.php');
+	use Zend\Diactoros\ServerRequestFactory;
+	use Zend\Diactoros\Response\HtmlResponse;
+	use Zend\Diactoros\Response\JsonResponse;
+	use Zend\Diactoros\Response\RedirectResponse;
+	use Zend\Diactoros\Response\SapiEmitter;
+	use Aura\Router\RouterContainer;
 
-</div>
+	$request = ServerRequestFactory::fromGlobals();
 
-<div style="display:flex;justify-content: center;" >	
- <ul class="pagination">
-    <li <?php echo ($page==0) ? "class='disabled'" : "class='waves-effect'" ?>><a <?php if($page!=0) { ?> href="/?page=<?=$page?>" <?php } ?> ><i class="material-icons">chevron_left</i></a></li>
- 	<?php  	
- 	$flag_left=true;
- 	$flag_right=true;
+	
+	$routerContainer = new RouterContainer();
+	$map = $routerContainer->getMap();
 
- 	 for ($i=1; $i <= $page_count; $i++) {  
- 	 if($i==1 || $i==$page_count || (($i<=$page+1) && ($i>=$page-5)) || (($i>=$page+1) && ($i<=$page+6)))	{
- 	 ?>
-    <li <?php echo ($page+1==$i) ? "class='active'" : "class='waves-effect'" ?> ><a href="/?page=<?=$i ?>"><?=$i ?></a></li>
-    <?php 	
-		}
-		else if($flag_left && $i<$page)
-		{
-			$flag_left=false;
-			echo "<li class='waves-effect'><a>...</a></li>";
-		}
-		else if($flag_right&& $i>$page)
-		{
-			$flag_right=false;
-			echo "<li class='waves-effect'><a>...</a></li>";
-		}
-
-
+	// карта маршрутов
+	$map->get('login', '/login', function ()
+	{
+		return new RedirectResponse("/pages/home.php");
+	});
+	$map->get('register', '/register', function ()
+	{
+		return new RedirectResponse("pages/register.php");
+	});
+	$map->get('home', '/', function ()
+	{
+		return new RedirectResponse("pages/home.php");
+	});
+	$map->get('cabinet', '/cabinet', function ()
+	{
+		return new RedirectResponse("cabinet.php");
+	});
+	$matcher = $routerContainer->getMatcher();
+	$route = $matcher->match($request);
+	if (! $route) {
+		// 404 page
+	    echo "No route found for the request.";
+	    exit;
 	}
-     ?>
-    <li <?php echo ($page+1==$page_count) ? "class='disabled'" : "class='waves-effect'" ?>><a <?php if($page+1!=$page_count) { ?> href="/?page=<?=$page+2?>" <?php } ?>><i class="material-icons">chevron_right</i></a></li>
-  </ul>
-</div>
+	$handler = $route->handler;
+	$response = $handler($request);
+
+	$emitter = new SapiEmitter();
+	$emitter->emit($response);
 
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-</body>
-</html>
+ ?>
