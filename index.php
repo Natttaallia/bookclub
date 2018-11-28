@@ -17,7 +17,7 @@ include (__DIR__ . '/vendor/autoload.php');
 	// карта маршрутов
 	$map->get('login', '/login', function ()
 	{
-		return new RedirectResponse("/pages/home.php");
+		return new RedirectResponse("/pages/login.php");
 	});
 	$map->get('register', '/register', function ()
 	{
@@ -29,7 +29,7 @@ include (__DIR__ . '/vendor/autoload.php');
 	});
 	$map->get('cabinet', '/cabinet', function ()
 	{
-		return new RedirectResponse("cabinet.php");
+		return new RedirectResponse("pages/cabinet.php");
 	});
 	$matcher = $routerContainer->getMatcher();
 	$route = $matcher->match($request);

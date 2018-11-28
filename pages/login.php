@@ -1,35 +1,29 @@
 <?php 
 error_reporting(E_ERROR );
-include("config.php"); 
+include("..\config.php"); 
+include("..\DB.class.php"); 
+
 
 $login = $_GET['login'];
 $password = $_GET['password'];
 $email = $_GET['email'];
 
 
+// $dbc=new DB();
 
-//подкlючение к бд
-try {
-	 $db=new PDO("mysql:dbname=".DB.";host=".HOST, USER, PASSWORD);
-	} catch (PDOException $e) {
-	 echo 'Подключение не удалось: ' . $e->getMessage();
-	return 0;
-}
-
+// var_dump($dbc->getValue('login','users',['id' => 17]));
 
 
 
 if (isset($login) && isset($password) && !empty($login) && !empty($password)) {
-
-	$sth = $db->prepare('SELECT login, password FROM users WHERE login = ?');
-	$sth->execute(array($login));
-
-while ($row = $sth->fetch(PDO::FETCH_LAZY))
-{
-			if(password_verify($password,$row['password'])){
+$dbc=new DB();
+$pas=$dbc->getValue('password','users',['login' => $dbc->db->quote($login)]);
+foreach ($pas as  $value) {
+	if(password_verify($password,$value)){
 			$Success=true;
 		}
-	}
+}
+
 }
 	
  ?>
@@ -50,7 +44,7 @@ while ($row = $sth->fetch(PDO::FETCH_LAZY))
 <?php unset($Success);} ?>
 <?php if(isset($Success)){ ?>
 	<div class="Mes">Вы успешно зашли</div>
-
+<a href="/cabinet">Личный кабинет</a>
 <?php 
 unset($Success);
 } 

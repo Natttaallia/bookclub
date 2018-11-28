@@ -1,6 +1,6 @@
 <?php 
 error_reporting(E_ERROR);
-include("config.php"); 
+include("..\config.php"); 
 
 
 $login = $_POST['login'];
