@@ -19,7 +19,7 @@ if (isset($login) && isset($password) && !empty($login) && !empty($password)) {
 $dbc=new DB();
 $pas=$dbc->getValue('password','users',['login' => $dbc->db->quote($login)]);
 foreach ($pas as  $value) {
-	if(password_verify($password,$value)){
+	if(password_verify($password,$value['password'])){
 			$Success=true;
 		}
 }
