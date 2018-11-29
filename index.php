@@ -23,10 +23,17 @@ include (__DIR__ . '/vendor/autoload.php');
 	{
 		return new RedirectResponse("pages/register.php");
 	});
+	$map->get('homewithpage', '/{page}', function ($request)
+	{
+		$page=$request->getURI()->getPath();
+		$page = substr($page, 1);
+		return new RedirectResponse("pages/home.php?page=$page");
+	})->tokens(['page' => '\d+']);
 	$map->get('home', '/', function ()
 	{
 		return new RedirectResponse("pages/home.php");
 	});
+	
 	$map->get('cabinet', '/cabinet', function ()
 	{
 		return new RedirectResponse("pages/cabinet.php");

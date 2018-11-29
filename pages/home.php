@@ -21,8 +21,8 @@ $page_count=ceil(count($data)/$count);
 </head>
 <body>
 <nav>	
-	<a href="register.php" class="subbtn">Зарегистрироваться</a>
-	<a href="login.php" class="subbtn">Войти</a>
+	<a href="..\register" class="subbtn">Зарегистрироваться</a>
+	<a href="..\login" class="subbtn">Войти</a>
 </nav>
 <div class="container">
 <?php 	
@@ -47,7 +47,7 @@ for ($i=$start; $i < $end; $i++) {
 
 <div style="display:flex;justify-content: center;" >	
  <ul class="pagination">
-    <li <?php echo ($page==0) ? "class='disabled'" : "class='waves-effect'" ?>><a <?php if($page!=0) { ?> href="/?page=<?=$page?>" <?php } ?> ><i class="material-icons">chevron_left</i></a></li>
+    <li <?php echo ($page==0) ? "class='disabled'" : "class='waves-effect'" ?>><a <?php if($page!=0) { ?> href="/<?=$page?>" <?php } ?> ><i class="material-icons">chevron_left</i></a></li>
  	<?php  	
  	$flag_left=true;
  	$flag_right=true;
@@ -55,7 +55,7 @@ for ($i=$start; $i < $end; $i++) {
  	 for ($i=1; $i <= $page_count; $i++) {  
  	 if($i==1 || $i==$page_count || (($i<=$page+1) && ($i>=$page-5)) || (($i>=$page+1) && ($i<=$page+6)))	{
  	 ?>
-    <li <?php echo ($page+1==$i) ? "class='active'" : "class='waves-effect'" ?> ><a href="/?page=<?=$i ?>"><?=$i ?></a></li>
+    <li <?php echo ($page+1==$i) ? "class='active'" : "class='waves-effect'" ?> ><a href="/<?=$i ?>"><?=$i ?></a></li>
     <?php 	
 		}
 		else if($flag_left && $i<$page)
@@ -72,7 +72,7 @@ for ($i=$start; $i < $end; $i++) {
 
 	}
      ?>
-    <li <?php echo ($page+1==$page_count) ? "class='disabled'" : "class='waves-effect'" ?>><a <?php if($page+1!=$page_count) { ?> href="/?page=<?=$page+2?>" <?php } ?>><i class="material-icons">chevron_right</i></a></li>
+    <li <?php echo ($page+1==$page_count) ? "class='disabled'" : "class='waves-effect'" ?>><a <?php if($page+1!=$page_count) { ?> href="/<?=$page+2?>" <?php } ?>><i class="material-icons">chevron_right</i></a></li>
   </ul>
 </div>
 
