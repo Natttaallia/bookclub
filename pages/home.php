@@ -1,4 +1,6 @@
 <?php 
+error_reporting(E_ERROR );
+
 include ('..\vendor/autoload.php');
 use App\DB;
 
@@ -8,12 +10,28 @@ $count=9;
 if(isset($_GET["page"]))$page=$_GET["page"]-1;
 else $page=0;
 $start=$page*$count;
-$end=$start+$count;
-$data=require('src.small.php');
-if($end>count($data))$end=count($data);
-$page_count=ceil(count($data)/$count);	
+$dbc=new DB();
 
+$data=$dbc->getData(
+	['*'], 
+	[],
+	'books',
+	$start,
+	$count
+);
+// var_dump($data);
+$allbooks=$dbc->getData(['*'],[],'books');
+$page_count=ceil(count($allbooks)/$count);	
+
+
+
+function getStringById($id,$column,$table){
+$dbc=new DB();
+$pas=$dbc->getValue($column,$table,['id' => $id]);
+return $pas[0][$column];
+}
  ?>
+
  
 <!DOCTYPE html>
 <html>
@@ -30,18 +48,18 @@ $page_count=ceil(count($data)/$count);
 </nav>
 <div class="container">
 <?php 	
-for ($i=$start; $i < $end; $i++) { 
+foreach ($data as $value) {
  ?>
 <div class="z-depth-3 book">
 	<div class="picture">	
-<img src=<?=$data[$i]["image"]?>>
+<img src=<?=$value["url"]?>>
 	</div>
 <h5>Автор</h5>
-<p><?=$data[$i]["author"]?></p>	
+<p><?=getStringById($value["author_id"],'name','authors')?></p>	
 <h5>Название</h5>	
-<p><?=$data[$i]["title"]?></p>	
+<p><?=$value["title"]?></p>	
 <h5>Категория</h5>
-<p><?=$data[$i]["category"]?></p>	
+<p><?=getStringById($value["category_id"],'title','categories')?></p>	
 </div>
  <?php 	
 }

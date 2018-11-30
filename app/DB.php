@@ -18,17 +18,9 @@ class DB
 	}
 
 	public function setValue($ColumnName=array(), $TableName, $Values=array()){
-
-		$sql='INSERT INTO '.$TableName.'(';
-		foreach ($ColumnName as $value ) {
-		$sql.=$value. ', ';		
-		}
-		$sql=substr($sql, 0, -2);
-		$sql.=') VALUES(';
-		foreach ($Values as $value ) {
-		$sql.=$value. ',';		
-		}
-		$sql=substr($sql, 0, -1);
+	
+		$sql=$this->slicesql('INSERT INTO '.$TableName.'(',$ColumnName,', ',-2);
+		$sql.=$this->slicesql(') VALUES(',$Values,', ',-2);
 		$sql.=')';
 		$sth=$this->db->query($sql);
 		return $result;
@@ -37,33 +29,41 @@ class DB
 
 
 	public function getValue($ColumnName, $TableName, $Condition=array()){
-
-		$sql='SELECT '.$ColumnName.' FROM '.$TableName.' WHERE ';
-		foreach ($Condition as $key => $value ) {
-		$sql.=$key.' = '.$value. ' AND ';		
-		}
-		$sql=substr($sql, 0, -5);
+		$sql=$this->slicesqlcondition('SELECT '.$ColumnName.' FROM '.$TableName.' WHERE ',$Condition,' AND ',-5);
 		$sth=$this->db->query($sql);		
 		$result= $sth->fetchAll();
 		return $result;
 	}
 
-	public function getData($Column_names=array(), $Condition=array(),$TableName){
-		$sql='SELECT ';
-		foreach ($Column_names as $value ) {
-		$sql.=$value. ', ';		
-		}
-		$sql=substr($sql, 0, -2);
-		$sql.=' FROM '.$TableName.' WHERE ';
-		foreach ($Condition as $key => $value ) {
-		$sql.=$key.' = '.$value. ' AND ';		
-		}
-		$sql=substr($sql, 0, -5);
+	public function getData($Column_names=array(), $Condition=array(),$TableName, $start,$end){
+		$sql=$this->slicesql('SELECT ',$Column_names,', ',-2);
+		$sql.=' FROM '.$TableName;
+		if(count($Condition)>0)
+		$sql=$this->slicesqlcondition($sql.' WHERE ',$Condition,' AND ',-5);
+		if(!is_null($start))$sql.=" LIMIT $start";
+		if(!is_null($end))$sql.=", $end";
 		$sth=$this->db->query($sql);		
 		$result= $sth->fetchAll();
+		
 		return $result;
 
 	}
+	private function slicesql($sql,$arr,$str,$count){
+		foreach ($arr as $value ) {
+		$sql.=$value . $str;		
+		}
+		$sql=substr($sql, 0, $count);
+		return $sql;
+	}
+	private function slicesqlcondition($sql,$arr,$str,$count){
+		foreach ($arr as $key => $value ) {
+		$sql.=$key.' = '.$value. $str;	
+		}
+		$sql=substr($sql, 0, $count);
+		return $sql;
+	}
+
+
 
 }
 
