@@ -1,4 +1,5 @@
 <?php 
+namespace App;
 include ("config.php");
 class DB
 {
@@ -9,7 +10,7 @@ class DB
 	function __construct()
 	{
 		try {
-	 $this->db=new PDO("mysql:dbname=".DB.";host=".HOST, USER, PASSWORD);
+	 $this->db=new \PDO("mysql:dbname=".DB.";host=".HOST, USER, PASSWORD);
 			} catch (PDOException $e) {
 	 echo 'Подключение не удалось: ' . $e->getMessage();
 	 return 0;
@@ -31,14 +32,18 @@ class DB
 	}
 
 	public function getData($Column_names=array(), $Condition=array(),$TableName){
-		$result=array();
-		
-		foreach ($Condition as $key => $value ) {
-		$sql='SELECT '.$ColumnName.' FROM '.$TableName.' WHERE '.$key.' = '.$value;
-		$sth=$this->db->query($sql);		
-		$b= $sth->fetch();
-		array_push($result, $b[$ColumnName]);			
+		$sql='SELECT ';
+		foreach ($Column_names as $value ) {
+		$sql.=$value. ', ';		
 		}
+		$sql=substr($sql, 0, -2);
+		$sql.=.' FROM '.$TableName.' WHERE ';
+		foreach ($Condition as $key => $value ) {
+		$sql.=$key.' = '.$value. ' AND ';		
+		}
+		$sql=substr($sql, 0, -5);
+		$sth=$this->db->query($sql);		
+		$result= $sth->fetchAll();
 		return $result;
 
 	}

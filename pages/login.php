@@ -1,17 +1,13 @@
 <?php 
+
 error_reporting(E_ERROR );
-include("..\config.php"); 
-include("..\DB.class.php"); 
+include ('..\vendor/autoload.php');
+use App\DB;
 
 
 $login = $_GET['login'];
 $password = $_GET['password'];
 $email = $_GET['email'];
-
-
-// $dbc=new DB();
-
-// var_dump($dbc->getValue('login','users',['id' => 17]));
 
 
 

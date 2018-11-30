@@ -7,7 +7,7 @@ include (__DIR__ . '/vendor/autoload.php');
 	use Zend\Diactoros\Response\RedirectResponse;
 	use Zend\Diactoros\Response\SapiEmitter;
 	use Aura\Router\RouterContainer;
-
+	
 	$request = ServerRequestFactory::fromGlobals();
 
 	

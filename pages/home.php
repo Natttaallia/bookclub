@@ -1,4 +1,8 @@
 <?php 
+include ('..\vendor/autoload.php');
+use App\DB;
+
+
 
 $count=9;
 if(isset($_GET["page"]))$page=$_GET["page"]-1;

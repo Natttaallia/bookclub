@@ -1,37 +1,25 @@
 <?php 
 error_reporting(E_ERROR);
-include("..\config.php"); 
+include ('..\vendor/autoload.php');
+use App\DB;
 
 
 $login = $_POST['login'];
 $password = $_POST['password'];
 $email = $_POST['email'];
 
-//подкlючение к бд
-try {
-	 $db=new PDO("mysql:dbname=".DB.";host=".HOST, USER, PASSWORD);
-	} catch (PDOException $e) {
-	 echo 'Подключение не удалось: ' . $e->getMessage();
-	return 0;
-}
+
 
 
 if (isset($login) && isset($password) && isset($email)&& !empty($login) && !empty($password)&& !empty($email)  ) {
-	$sth = $db->prepare('SELECT login FROM users WHERE login = ?');
-	$sth->execute(array($login));
-if (count($sth->fetchAll()) > 0) {
+	$dbc=new DB();
+$pas=$dbc->getValue('login','users',['login' => $dbc->db->quote($login)]);
+if (count($pas) > 0) {
 $Error=true;
 }
 	else{
-	$sth = $db->prepare('INSERT INTO users(login, password, email) VALUES( ?,?,?)');
-$sth->execute(array($login,password_hash($password, PASSWORD_BCRYPT),$email));
-
-
-		//исходные данные, создание файла пользователя
-		session_save_path('users_data/');
-				session_id($id);
-				session_start();
-    	session_write_close();
+$pas=$dbc->setValue(['login', 'password', 'email'],'users',[$dbc->db->quote($login),$dbc->db->quote(password_hash($password, PASSWORD_BCRYPT)),$dbc->db->quote($email)]);
+		session_start();
 		$Success=true;
 	}
 }
