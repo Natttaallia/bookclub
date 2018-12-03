@@ -7,7 +7,12 @@ include (__DIR__ . '/vendor/autoload.php');
 	use Zend\Diactoros\Response\RedirectResponse;
 	use Zend\Diactoros\Response\SapiEmitter;
 	use Aura\Router\RouterContainer;
+	use App\controllers\LoginController;
+	use App\controllers\RegisterController;
+	use App\controllers\HomeController;
+
 	
+
 	$request = ServerRequestFactory::fromGlobals();
 
 	
@@ -15,14 +20,19 @@ include (__DIR__ . '/vendor/autoload.php');
 	$map = $routerContainer->getMap();
 
 	// карта маршрутов
-	$map->get('login', '/login', function ()
-	{
-		return new RedirectResponse("/pages/login.php");
-	});
-	$map->get('register', '/register', function ()
-	{
-		return new RedirectResponse("pages/register.php");
-	});
+	// $map->get('login', '/login', function ()
+	// {
+	// 	return new RedirectResponse("/pages/login.php");
+	// });
+	$map->get('login', '/login', ['App\controllers\LoginController', 'index']);
+	// $map->get('register', '/register', function ()
+	// {
+	// 	return new RedirectResponse("pages/register.php");
+	// });
+	$map->get('register', '/register', ['App\controllers\RegisterController', 'index']);
+
+	$map->post('registerPost', '/register', ['App\controllers\RegisterController', 'index']);
+
 	$map->get('homewithpage', '/{page}', function ($request)
 	{
 		$page=$request->getURI()->getPath();
@@ -33,7 +43,7 @@ include (__DIR__ . '/vendor/autoload.php');
 	{
 		return new RedirectResponse("pages/home.php");
 	});
-	
+	// $map->get('home', '/', ['App\controllers\HomeController', 'index']);
 	$map->get('cabinet', '/cabinet', function ()
 	{
 		return new RedirectResponse("pages/cabinet.php");

@@ -25,32 +25,38 @@ $pas=$dbc->setValue(['login', 'password', 'email'],'users',[$dbc->db->quote($log
 }
 
 
- ?>
 
+$content="
 <!DOCTYPE html>
 <html>
 <head>
 	<title>Регистрация</title>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css'>
+<link rel='stylesheet' type='text/css' href='style.css'>
 </head>
 <body>
-	<form action="" method="post" enctype="multipart/form-data">
-<?php if(isset($Error)){ ?>
-	<div class="Mes">Такой логин уже существует. Добавление невозможно</div>
-<?php unset($Error);} ?>
-<?php if(isset($Success)){ ?>
-	<div class="Mes">Добавлено</div>
-<?php unset($Success);} ?>
- 
+	<form action='' method='post' enctype='multipart/form-data'>";
+
+ if(isset($Error)){ 
+ 	$content.="
+	<div class='Mes'>Такой логин уже существует. Добавление невозможно</div>";
+ unset($Error);}
+if(isset($Success)){
+	$content.="
+	<div class='Mes'>Добавлено</div>";
+unset($Success);} 
+$content.="
  	<h1>Добавление пользователя</h1>
-		<p><label>Логин: </label> <input type="text" name="login" id="add"></p>
-		<p><label>Пароль: </label><input type="password" name="password" id="add"></p>
-		<p><label>Почта: </label><input type="email" name="email" id="add"></p>
+		<p><label>Логин: </label> <input type='text' name='login' id='add'></p>
+		<p><label>Пароль: </label><input type='password' name='password' id='add'></p>
+		<p><label>Почта: </label><input type='email' name='email' id='add'></p>
 		
-		<p><input type="submit" class="btn waves-effect waves-light"  value="Зарегистрироваться"><a href="login.php" class="btn waves-effect waves-light">Войти</a></p>
+		<p><input type='submit' class='btn waves-effect waves-light'  value='Зарегистрироваться'><a href='login.php' class='btn waves-effect waves-light'>Войти</a></p>
 
  </form>
 
 </body>
-</html>
+</html>";
+return $content;
+
+ ?>

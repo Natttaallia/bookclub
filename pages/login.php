@@ -7,7 +7,6 @@ use App\DB;
 
 $login = $_GET['login'];
 $password = $_GET['password'];
-$email = $_GET['email'];
 
 
 
@@ -22,38 +21,45 @@ foreach ($pas as  $value) {
 
 }
 	
- ?>
 
 
 
 
+$content="
 <!DOCTYPE html>
 <html>
 <head>
 	<title>Log In</title>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css'>
+<link rel='stylesheet' type='text/css' href='style.css'>
 </head>
-<body><form action="">
-<?php if(!isset($Success)&&isset($login)){ ?>
-	<div class="Mes">Данные не верные. Вы не вошли</div>
-<?php unset($Success);} ?>
-<?php if(isset($Success)){ ?>
-	<div class="Mes">Вы успешно зашли</div>
-<a href="/cabinet">Личный кабинет</a>
-<?php 
+<body><form action=''>";
+ if(!isset($Success)&&isset($login)){ 
+ 	$content.="
+	<div class='Mes'>Данные не верные. Вы не вошли</div>";
+ unset($Success);
+}
+ if(isset($Success)){ 
+ 	$content.="
+	<div class='Mes'>Вы успешно зашли</div>
+<a href='/cabinet'>Личный кабинет</a>";
+
 unset($Success);
 } 
 else{
-?>
- 
- 	<h1>Выполните вход</h1>
-		<p><label>Логин: </label> <input type="text" name="login" id="add"></p>
-		<p><label>Пароль: </label><input type="password" name="password" id="add"></p>
 
-		<p><input type="submit" class="btn waves-effect waves-light" value="Log In"></p>
+ $content.="
+ 	<h1>Выполните вход</h1>
+		<p><label>Логин: </label> <input type='text' name='login' id='add'></p>
+		<p><label>Пароль: </label><input type='password' name='password' id='add'></p>
+
+		<p><input type='submit' class='btn waves-effect waves-light' value='Log In'></p>";
  
- <?php 	} ?>
+ }
+ $content.=" 
 </form>
 </body>
-</html>
+</html>"; 
+return $content;
+
+?>
