@@ -1,5 +1,4 @@
-<?php 
-$content="
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,6 +17,4 @@ $content="
  
 </form>
 </body>
-</html>"; 
-return $content;
- ?>
+</html>

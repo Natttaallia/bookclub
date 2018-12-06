@@ -1,5 +1,4 @@
-<?php 
-$content="
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,8 +7,9 @@ $content="
 <link rel='stylesheet' type='text/css' href='style.css'>
 </head>
 <body>
-<div class='Mes'>Данные не верные. Вы не вошли</div>
+<div class='Mes'><?php echo e($Text); ?></div>
+<?php echo $Element; ?>
+
+
 </body>
-</html>"; 
-return $content;
- ?>
+</html>

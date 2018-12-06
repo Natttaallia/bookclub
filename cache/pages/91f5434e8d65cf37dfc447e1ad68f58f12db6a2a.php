@@ -1,5 +1,4 @@
-<?php 
-$content="
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,9 +7,6 @@ $content="
 <link rel='stylesheet' type='text/css' href='style.css'>
 </head>
 <body>
-<div class='Mes'>Вы успешно зашли</div>
-<a href='/cabinet'>Личный кабинет</a>
+<div class='Mes'><?php echo e($Text); ?></div>
 </body>
-</html>"; 
-return $content;
- ?>
+</html>

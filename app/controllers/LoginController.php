@@ -17,16 +17,26 @@ class LoginController{
 
 public function __invoke($request)
 {
+	$blade = new BladeInstance(
+				__DIR__ . "/../../pages", 
+				__DIR__ . "/../../cache/pages"
+			);
+
 	$data =$request->getParsedbody();
 	$this->login=$data['login'];
 	$this->password=$data['password'];
 	$this->ChekingUser();
 	if(is_null($this->login)||is_null($this->password))
-	 	$content = include(__DIR__ . '/../../pages/login.template.php');
+		$content=$blade->render('login');
 	 else if($this->Success)
-		$content = include(__DIR__ . '/../../pages/loginsuccess.template.php');
+		$content=$blade->render('success', [
+					'Text' => "Вы успешно зашли",
+					'Element' => "<a href='/cabinet'>Личный кабинет</a>"
+				]);
 	 else
-		$content = include(__DIR__ . '/../../pages/loginerror.template.php');
+		$content=$blade->render('error', [
+					'Text' => "Данные не верные. Вы не вошли"
+				]);
 		return new HtmlResponse($content);
 
 
