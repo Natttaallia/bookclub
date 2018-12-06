@@ -1,48 +1,52 @@
 <?php 
 namespace App\controllers;
 
-	use App\DB;
-	
+	use App\DB;	
 	use Zend\Diactoros\Response\HtmlResponse;
+	use duncan3dc\Laravel\BladeInstance;
+
 
 
 class LoginController{
 
 
 	private $Success;
-
 	private $login;
 	private $password;
 
-function __constructor(){
-	$login = $_GET['login'];
-	$password = $_GET['password'];
-	$this->ChekingUser();
-	
 
-	
-}
-private function ChekingUser(){
-	if (isset($login) && isset($password) && !empty($login) && !empty($password)) {
-	$dbc=new DB();
-	$pas=$dbc->getValue('password','users',['login' => $dbc->db->quote($login)]);
-		foreach ($pas as  $value) {
-			if(password_verify($password,$value['password'])){
-			$Success=true;
-		}
-}
-}
-}
-	public function index(){
-	 if(!isset($login)||!isset($password))
+public function __invoke($request)
+{
+	$data =$request->getParsedbody();
+	$this->login=$data['login'];
+	$this->password=$data['password'];
+	$this->ChekingUser();
+	if(is_null($this->login)||is_null($this->password))
 	 	$content = include(__DIR__ . '/../../pages/login.template.php');
-	 else if($Success)
+	 else if($this->Success)
 		$content = include(__DIR__ . '/../../pages/loginsuccess.template.php');
 	 else
 		$content = include(__DIR__ . '/../../pages/loginerror.template.php');
-
 		return new HtmlResponse($content);
+
+
+
+}
+private function ChekingUser(){
+
+	if (isset($this->login) && isset($this->password) && !empty($this->login) && !empty($this->password)) {
+
+	$dbc=new DB();
+	$pas=$dbc->getValue('password','users',['login' => $dbc->db->quote($this->login)]);
+
+		foreach ($pas as  $value) {
+			if(password_verify($this->password,$value['password'])){
+			$this->Success=true;
+			}
+		}
 	}
+}
+
 }
 
  ?>

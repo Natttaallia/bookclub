@@ -1,0 +1,3 @@
+http://duncan3dc.github.io/blade/installation/
+
+ https://laravel.ru/docs/v5/blade

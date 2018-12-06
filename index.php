@@ -24,7 +24,10 @@ include (__DIR__ . '/vendor/autoload.php');
 	// {
 	// 	return new RedirectResponse("/pages/login.php");
 	// });
-	$map->get('login', '/login', ['App\controllers\LoginController', 'index']);
+	$map->get('login', '/login',App\controllers\LoginController::class);
+	$map->post('loginPost', '/login',App\controllers\LoginController::class);
+
+	// $map->get('login', '/login', ['App\controllers\LoginController', 'index']);
 	// $map->get('register', '/register', function ()
 	// {
 	// 	return new RedirectResponse("pages/register.php");
@@ -56,7 +59,8 @@ include (__DIR__ . '/vendor/autoload.php');
 	    exit;
 	}
 	$handler = $route->handler;
-	$response = $handler($request);
+	$obj=new $handler();
+	$response = $obj($request);
 
 	$emitter = new SapiEmitter();
 	$emitter->emit($response);
