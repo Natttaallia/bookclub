@@ -7,8 +7,9 @@
 <link rel='stylesheet' type='text/css' href='/pages/style.css'>
 </head>
 <body>
-<div class='Mes'>{{ $Text }}</div>
-{!! $Element !!}
+<div class='Mes'><?php echo e($Text); ?></div>
+<?php echo $Element; ?>
+
 
 </body>
 </html>

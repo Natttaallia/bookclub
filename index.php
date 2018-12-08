@@ -10,6 +10,8 @@ include (__DIR__ . '/vendor/autoload.php');
 	use App\controllers\LoginController;
 	use App\controllers\RegisterController;
 	use App\controllers\HomeController;
+	use App\controllers\PersonalController;
+
 
 	
 
@@ -20,37 +22,22 @@ include (__DIR__ . '/vendor/autoload.php');
 	$map = $routerContainer->getMap();
 
 	// карта маршрутов
-	// $map->get('login', '/login', function ()
-	// {
-	// 	return new RedirectResponse("/pages/login.php");
-	// });
 	$map->get('login', '/login',App\controllers\LoginController::class);
 	$map->post('loginPost', '/login',App\controllers\LoginController::class);
 
-	// $map->get('login', '/login', ['App\controllers\LoginController', 'index']);
-	// $map->get('register', '/register', function ()
-	// {
-	// 	return new RedirectResponse("pages/register.php");
-	// });
-	$map->get('register', '/register', ['App\controllers\RegisterController', 'index']);
 
-	$map->post('registerPost', '/register', ['App\controllers\RegisterController', 'index']);
+	$map->get('register', '/register',App\controllers\RegisterController::class);
+	$map->post('registerPost', '/register',App\controllers\RegisterController::class);
 
-	$map->get('homewithpage', '/{page}', function ($request)
-	{
-		$page=$request->getURI()->getPath();
-		$page = substr($page, 1);
-		return new RedirectResponse("pages/home.php?page=$page");
-	})->tokens(['page' => '\d+']);
-	$map->get('home', '/', function ()
-	{
-		return new RedirectResponse("pages/home.php");
-	});
-	// $map->get('home', '/', ['App\controllers\HomeController', 'index']);
-	$map->get('cabinet', '/cabinet', function ()
-	{
-		return new RedirectResponse("pages/cabinet.php");
-	});
+
+	$map->get('home', '/home',App\controllers\HomeController::class);
+	$map->get('home_', '/',App\controllers\HomeController::class);
+	$map->get('homewithpage', '/{page}', App\controllers\HomeController::class)->tokens(['page' => '\d+']);
+
+	
+	$map->get('cabinet', '/cabinet',App\controllers\PersonalController::class);
+
+
 	$matcher = $routerContainer->getMatcher();
 	$route = $matcher->match($request);
 	if (! $route) {
