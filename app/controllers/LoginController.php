@@ -1,9 +1,11 @@
 <?php 
 namespace App\controllers;
 
-	use App\DB;	
+	// use App\DB;	
 	use Zend\Diactoros\Response\HtmlResponse;
 	use duncan3dc\Laravel\BladeInstance;
+	use Illuminate\Database\Capsule\Manager as DB;
+
 
 
 
@@ -48,10 +50,15 @@ public function __invoke($request)
 
 }
 private function ChekingUser(){	
-	$dbc=new DB();
-	$pas=$dbc->getValue('password','users',['login' => $dbc->db->quote($this->login)]);
+	// $dbc=new DB();
+	// $pas=$dbc->getValue('password','users',['login' => $dbc->db->quote($this->login)]);
+	$pas=DB::table('users')
+					->where('login', '=', $this->login)
+					->pluck('password')
+					->toArray();
+		// var_dump($pas);
 		foreach ($pas as  $value) {
-			if(password_verify($this->password,$value['password'])){
+			if(password_verify($this->password,$value)){
 			$this->Success=true;
 			}
 		}	
