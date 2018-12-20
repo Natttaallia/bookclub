@@ -7,7 +7,7 @@
     @endif
 
     <a 
-    @if($page!=0) href='/$page'
+    @if($page!=0) href='{{ $uri }}/$page'
     @endif 
     ><i class='material-icons'>chevron_left</i></a></li>
  	
@@ -21,7 +21,7 @@
       @if ($page+1==$i) class='active'
       @else class='waves-effect'
       @endif
-   ><a href='/{{ $i }}'>{{ $i }}</a></li>
+   ><a href='{{ $uri }}/{{ $i }}'>{{ $i }}</a></li>
  
 		
 		@elseif($i<$page && $flag_left)
@@ -44,7 +44,7 @@
     @endif
     ><a 
     @if($page+1!=$page_count) 
-     href='/{{ $page+2}}'
+     href="{{ $uri }}/{{ $page+2}}"
      @endif
      ><i class='material-icons'>chevron_right</i></a></li>
   </ul>

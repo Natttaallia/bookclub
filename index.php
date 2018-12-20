@@ -61,8 +61,19 @@ include (__DIR__ . '/vendor/autoload.php');
 	$map->get('home_', '/',App\controllers\HomeController::class);
 	$map->get('homewithpage', '/{page}', App\controllers\HomeController::class)->tokens(['page' => '\d+']);
 
+	$map->attach('admin.', '/cabinet', function($map) {
+		// admin.main
+		$map->get('main', '/{page}', App\controllers\PersonalController::class)->tokens(['page' => '\d+']);
+		// admin.categories
+		$map->get('categories', '/categories', App\controllers\admin\CategoriesController::class);
+		$map->post('categoriesAdd', '/categories', App\controllers\admin\CategoriesController::class);
+
+		// admin.category
+		$map->get('authors', '/authors', App\controllers\admin\AuthorsController::class);
+	});
+
 	// $map->get('cabinet', '/cabinet',App\controllers\PersonalController::class);
-	$map->get('cabinetwithpage', '/cabinet/{page}',App\controllers\PersonalController::class)->tokens(['page' => '\d+']);
+	// $map->get('cabinetwithpage', '/cabinet/{page}',App\controllers\PersonalController::class)->tokens(['page' => '\d+']);
 
 
 	$matcher = $routerContainer->getMatcher();

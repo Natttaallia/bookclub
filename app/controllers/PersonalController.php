@@ -28,23 +28,26 @@ public function __invoke($request)
 			);
 	session_start();
 	$this->count=20;
+	$id=DB::table('users')
+					->where('login', '=', $_SESSION['username'])
+					->value('id');
 
 	$page_=$request->getURI()->getPath();
 	$page_ = substr($page_, 9);
+
 	// var_dump($page_);
 	if(!empty($page_))$this->page=$page_-1;
 	else $this->page=0;
 	$this->allbooks=DB::table('books')
 					->where('user_id', '=', $id)
 					->count();
+	// var_dump($this->allbooks);
 	$this->page_count=ceil($this->allbooks/$this->count);	
 
 	if($this->page>$this->page_count)$this->page=0;
 	$this->start=$this->page*$this->count;
 
-$id=DB::table('users')
-					->where('login', '=', $_SESSION['username'])
-					->value('id');
+
 					// ->get();
 				// var_dump($id);
 $data=DB::table('books')
@@ -64,13 +67,14 @@ $data=DB::table('books')
 	}
 	// var_dump($data);
 	if(isset($_SESSION['username']))	
-		$content=$blade->render('personal', [
+		$content=$blade->render('admin.personal', [
 					'name' => $_SESSION['username'],
 					'data'=>$data,
 					'page' => $this->page,
 					'page_count' => $this->page_count,
 					'flag_right'=>true,
-					'flag_left'=>true
+					'flag_left'=>true,
+					'uri'=>"/cabinet"
 				]);
 	else
 		$content=$blade->render('error', [

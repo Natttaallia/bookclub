@@ -7,7 +7,7 @@
     <?php endif; ?>
 
     <a 
-    <?php if($page!=0): ?> href='/$page'
+    <?php if($page!=0): ?> href='<?php echo e($uri); ?>/$page'
     <?php endif; ?> 
     ><i class='material-icons'>chevron_left</i></a></li>
  	
@@ -21,7 +21,7 @@
       <?php if($page+1==$i): ?> class='active'
       <?php else: ?> class='waves-effect'
       <?php endif; ?>
-   ><a href='/<?php echo e($i); ?>'><?php echo e($i); ?></a></li>
+   ><a href='<?php echo e($uri); ?>/<?php echo e($i); ?>'><?php echo e($i); ?></a></li>
  
 		
 		<?php elseif($i<$page && $flag_left): ?>
@@ -46,7 +46,7 @@
     <?php endif; ?>
     ><a 
     <?php if($page+1!=$page_count): ?> 
-     href='/<?php echo e($page+2); ?>'
+     href="<?php echo e($uri); ?>/<?php echo e($page+2); ?>"
      <?php endif; ?>
      ><i class='material-icons'>chevron_right</i></a></li>
   </ul>

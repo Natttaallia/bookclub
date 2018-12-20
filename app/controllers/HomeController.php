@@ -81,7 +81,8 @@ for ($i=$this->start; $i < ($this->start+$this->count); $i++) {
 					'page' => $this->page,
 					'page_count' => $this->page_count,
 					'flag_right'=>true,
-					'flag_left'=>true
+					'flag_left'=>true,
+					'uri'=>''
 
 				]);
 	return new HtmlResponse($content);
