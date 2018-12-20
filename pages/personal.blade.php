@@ -8,7 +8,7 @@
     <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="pages/assets/css/custom.css" rel="stylesheet" type="text/css" />
+    <link href="../pages/assets/css/custom.css" rel="stylesheet" type="text/css" />
   </head>
 
   <body>
@@ -18,9 +18,9 @@
       <li>
         <div class="userView">
           <div class="background">
-            <img src="pages/assets/img/photo1.png">
+            <img src="../pages/assets/img/photo1.png">
           </div>
-          <a href="#!user"><img class="circle" src="pages/assets/img/avatar04.png"></a>
+          <a href="#!user"><img class="circle" src="../pages/assets/img/avatar04.png"></a>
           <a href="#!name"><span class="white-text name">Welcome back,</span></a>
           <a href="#!email"><span class="white-text email">{{ $name }}</span></a>
         </div>
@@ -78,7 +78,7 @@
         
 
 
-
+@if(count($data)>0)
                 <h3 class="center-align">Перечень книг</h3>
                 <div class="custom-responsive">
                   
@@ -103,8 +103,11 @@
                   </tbody>
                 </table>
               </div>
-            @include('pagination');
 
+            @include('pagination');
+@else
+<h3 class="center-align">Нет книг</h3>
+@endif
             </div>
           </div>
         </section>

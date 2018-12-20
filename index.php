@@ -11,6 +11,14 @@ include (__DIR__ . '/vendor/autoload.php');
 	use App\controllers\RegisterController;
 	use App\controllers\HomeController;
 	use App\controllers\PersonalController;
+
+	use Psr\Http\Message\ResponseInterface;
+	use Psr\Http\Message\ServerRequestInterface;
+	use Psr\Http\Server\RequestHandlerInterface;
+	use mindplay\middleman\Dispatcher;
+	use App\Middlewares\LoginMiddleware;
+
+
 	// подключение ORM
 	use Illuminate\Database\Capsule\Manager as Capsule;
 
@@ -53,8 +61,8 @@ include (__DIR__ . '/vendor/autoload.php');
 	$map->get('home_', '/',App\controllers\HomeController::class);
 	$map->get('homewithpage', '/{page}', App\controllers\HomeController::class)->tokens(['page' => '\d+']);
 
-	
-	$map->get('cabinet', '/cabinet',App\controllers\PersonalController::class);
+	// $map->get('cabinet', '/cabinet',App\controllers\PersonalController::class);
+	$map->get('cabinetwithpage', '/cabinet/{page}',App\controllers\PersonalController::class)->tokens(['page' => '\d+']);
 
 
 	$matcher = $routerContainer->getMatcher();
@@ -65,11 +73,25 @@ include (__DIR__ . '/vendor/autoload.php');
 	    exit;
 	}
 	$handler = $route->handler;
-	$obj=new $handler();
-	$response = $obj($request);
-
+	$response = (new $handler)($request);
+	// logg($response);
+	$dispatcher = new Dispatcher([
+	    new LoginMiddleware($request),
+	    new Middlewares\AuraRouter($routerContainer),
+	    new Middlewares\RequestHandler(),
+	]);
+	$response = $dispatcher->dispatch(
+		$request
+	);
 	$emitter = new SapiEmitter();
 	$emitter->emit($response);
+
+
+	// $obj=new $handler();
+	// $response = $obj($request);
+
+	// $emitter = new SapiEmitter();
+	// $emitter->emit($response);
 
 
 

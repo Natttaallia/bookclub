@@ -13,7 +13,7 @@ namespace App\controllers;
 class PersonalController{
 
 
-private $count;
+	private $count;
 	private $page;
 	private $start;
 	private $allbooks;
@@ -27,6 +27,20 @@ public function __invoke($request)
 				__DIR__ . "/../../cache/pages"
 			);
 	session_start();
+	$this->count=20;
+
+	$page_=$request->getURI()->getPath();
+	$page_ = substr($page_, 9);
+	// var_dump($page_);
+	if(!empty($page_))$this->page=$page_-1;
+	else $this->page=0;
+	$this->allbooks=DB::table('books')
+					->where('user_id', '=', $id)
+					->count();
+	$this->page_count=ceil($this->allbooks/$this->count);	
+
+	if($this->page>$this->page_count)$this->page=0;
+	$this->start=$this->page*$this->count;
 
 $id=DB::table('users')
 					->where('login', '=', $_SESSION['username'])
@@ -36,20 +50,27 @@ $id=DB::table('users')
 $data=DB::table('books')
 					->where('user_id', '=', $id)
 					->get()
+					->slice($this->start,$this->count)
 					->toArray();
+	// var_dump($data);
 
 
 	foreach ($data as $key => $value) {
 		$data[$key]= (array) $value;
 		$author=$this->getStringById($data[$key]["author_id"],'name','authors');
-	$data[$key]+=["author_name"=>$author];
-	$category=$this->getStringById($data[$key]["category_id"],'title','categories');
-	$data[$key]+=["category_name"=>$category];
+		$data[$key]+=["author_name"=>$author];
+		$category=$this->getStringById($data[$key]["category_id"],'title','categories');
+		$data[$key]+=["category_name"=>$category];
 	}
+	// var_dump($data);
 	if(isset($_SESSION['username']))	
 		$content=$blade->render('personal', [
 					'name' => $_SESSION['username'],
-					'data'=>$data
+					'data'=>$data,
+					'page' => $this->page,
+					'page_count' => $this->page_count,
+					'flag_right'=>true,
+					'flag_left'=>true
 				]);
 	else
 		$content=$blade->render('error', [

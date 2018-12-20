@@ -17,9 +17,14 @@ class ComposerStaticInit9574beff7793e67d1622119bada7cd70
         '0b0974a5566a1077e4f2e111341112c1' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/functions/normalize_server.php',
         '1ca3bc274755662169f9629d5412a1da' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/functions/normalize_uploaded_files.php',
         '40360c0b9b437e69bcbb7f1349ce029e' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/functions/parse_cookie_header.php',
+        'ce30818c35dfce0b74f3d34a4027ae2a' => __DIR__ . '/..' . '/http-interop/http-server-middleware/src/alias.php',
     );
 
     public static $prefixLengthsPsr4 = array (
+        'm' => 
+        array (
+            'mindplay\\middleman\\' => 19,
+        ),
         'd' => 
         array (
             'duncan3dc\\Laravel\\' => 18,
@@ -39,11 +44,18 @@ class ComposerStaticInit9574beff7793e67d1622119bada7cd70
         array (
             'Psr\\SimpleCache\\' => 16,
             'Psr\\Log\\' => 8,
+            'Psr\\Http\\Server\\' => 16,
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Container\\' => 14,
         ),
+        'M' => 
+        array (
+            'Middlewares\\Utils\\' => 18,
+            'Middlewares\\' => 12,
+        ),
         'I' => 
         array (
+            'Interop\\Http\\Server\\' => 20,
             'Illuminate\\View\\' => 16,
             'Illuminate\\Support\\' => 19,
             'Illuminate\\Filesystem\\' => 22,
@@ -64,6 +76,10 @@ class ComposerStaticInit9574beff7793e67d1622119bada7cd70
     );
 
     public static $prefixDirsPsr4 = array (
+        'mindplay\\middleman\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mindplay/middleman/src',
+        ),
         'duncan3dc\\Laravel\\' => 
         array (
             0 => __DIR__ . '/..' . '/duncan3dc/blade/src',
@@ -96,13 +112,32 @@ class ComposerStaticInit9574beff7793e67d1622119bada7cd70
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
+        'Psr\\Http\\Server\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/http-server-handler/src',
+            1 => __DIR__ . '/..' . '/psr/http-server-middleware/src',
+        ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Container\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
+        ),
+        'Middlewares\\Utils\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/middlewares/utils/src',
+        ),
+        'Middlewares\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/middlewares/aura-router/src',
+            1 => __DIR__ . '/..' . '/middlewares/request-handler/src',
+        ),
+        'Interop\\Http\\Server\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/http-interop/http-server-middleware/src',
         ),
         'Illuminate\\View\\' => 
         array (
@@ -150,12 +185,17 @@ class ComposerStaticInit9574beff7793e67d1622119bada7cd70
         0 => __DIR__ . '/..' . '/nesbot/carbon/src',
     );
 
+    public static $classMap = array (
+        'mindplay\\readable' => __DIR__ . '/..' . '/mindplay/readable/src/readable.php',
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit9574beff7793e67d1622119bada7cd70::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit9574beff7793e67d1622119bada7cd70::$prefixDirsPsr4;
             $loader->fallbackDirsPsr4 = ComposerStaticInit9574beff7793e67d1622119bada7cd70::$fallbackDirsPsr4;
+            $loader->classMap = ComposerStaticInit9574beff7793e67d1622119bada7cd70::$classMap;
 
         }, null, ClassLoader::class);
     }
