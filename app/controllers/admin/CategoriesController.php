@@ -20,17 +20,20 @@ public function __invoke($request)
 
 
 	$title = $request->getParsedBody()['title'];
-	if(!empty($title))$this->AddCategory($title,$message);
+	// var_dump(empty($title));
+	if(!empty($title)) $result = $this->AddCategory($title,$message);
+
 	$blade = new BladeInstance(
 				__DIR__ . "/../../../pages", 
 				__DIR__ . "/../../../cache/pages"
 			);
 	
+	// echo $message . PHP_EOL;
 		$content=$blade->render('admin.categories', [
 					'name' => $_SESSION['username'],
-					'mes'=>$message
+					'mes'=> $result == 0 && !empty($title) ?  $message : 'Добавлено',
 				]);
-
+// echo $message;
 		return new HtmlResponse($content);
 }
 private function AddCategory($title, &$message){
@@ -39,13 +42,22 @@ private function AddCategory($title, &$message){
 		DB::table('categories')->insert(
     	array('title' => $title)
 		);
-		$message.="Добавлено";
 	}
+	// 	$message.="Добавлено";
+	// 	// {
+	// 	// 	error: '',
+	// 	// 	success: true
+	// 	// }
+	// }
 	else
 	{
+		// {
+		// 	error: 'record already exist',
+			// success: false
+		// }
 		$message.="Не добавлено. Категория уже существует";
 	}
-	
+	return $count;
 }
 
 

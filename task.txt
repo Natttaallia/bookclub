@@ -1,0 +1,38 @@
+https://laravel.com/docs/5.7/migrations
+
+php artisan list
+php artisan make:migration {migration_name}
+php artisan migrate
+
+BLOG
+
+	authors
+		- id
+		- name
+
+	articles
+		- id
+		- title
+		- content
+		- timestamps
+		- author_id
+		- views
+
+	categories
+		- id
+		- name
+
+	tags
+		- id
+		- name
+
+	article_category
+		- id
+		- article_id
+		- category_id
+
+	article_tag
+		- id
+		- article_id
+		- tag_id
+

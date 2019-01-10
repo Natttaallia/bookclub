@@ -1,5 +1,5 @@
   <?php $__env->startSection('title'); ?>
-    Добавление автора
+    Добавление категории
   <?php $__env->stopSection(); ?>
     
     <?php $__env->startSection('content'); ?>
@@ -8,7 +8,7 @@
 
 <h3><?php echo e($mes); ?></h3>
 <form action='' method='post' enctype='multipart/form-data' style="width:70%;margin:15%">
-		<p><label>Автор: </label> <input type='text' name='title' id='add'></p>
+		<p><label>Наименование категории: </label> <input type='text' name='title' id='add'></p>
 		
 		<p><input type='submit' class='btn waves-effect waves-light'  value='Добавить'></p>
 
