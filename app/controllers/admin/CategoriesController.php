@@ -15,13 +15,13 @@ class CategoriesController{
 public function __invoke($request)
 {
 	session_start();
-	$message="";
+
 
 
 
 	$title = $request->getParsedBody()['title'];
 	// var_dump(empty($title));
-	if(!empty($title)) $result = $this->AddCategory($title,$message);
+	if(!empty($title)) $result = $this->AddCategory($title);
 
 	$blade = new BladeInstance(
 				__DIR__ . "/../../../pages", 
@@ -31,32 +31,19 @@ public function __invoke($request)
 	// echo $message . PHP_EOL;
 		$content=$blade->render('admin.categories', [
 					'name' => $_SESSION['username'],
-					'mes'=> $result == 0 && !empty($title) ?  $message : 'Добавлено',
+					'title'=>$title,
+					'mes'=> $result > 0 ? 'Не добавлено' : 'Добавлено',
 				]);
 // echo $message;
 		return new HtmlResponse($content);
 }
-private function AddCategory($title, &$message){
+private function AddCategory($title){
 	$count = DB::table('categories')->where('title', '=', $title)->count();
-	if($count==0){
+	if($count==0)
 		DB::table('categories')->insert(
     	array('title' => $title)
 		);
-	}
-	// 	$message.="Добавлено";
-	// 	// {
-	// 	// 	error: '',
-	// 	// 	success: true
-	// 	// }
-	// }
-	else
-	{
-		// {
-		// 	error: 'record already exist',
-			// success: false
-		// }
-		$message.="Не добавлено. Категория уже существует";
-	}
+	
 	return $count;
 }
 
