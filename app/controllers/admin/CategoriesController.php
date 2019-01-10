@@ -9,50 +9,43 @@ namespace App\controllers\admin;
 
 class CategoriesController{
 
-	public $success;
-	public $error;
+	
 
 
 public function __invoke($request)
 {
 	session_start();
-	$this->success=false;
-	$this->error=false;
+	$message="";
 
 
-	// var_dump($this->error);
 
 	$title = $request->getParsedBody()['title'];
-	if(!empty($title))$this->AddCategory($title);
+	if(!empty($title))$this->AddCategory($title,$message);
 	$blade = new BladeInstance(
 				__DIR__ . "/../../../pages", 
 				__DIR__ . "/../../../cache/pages"
 			);
-	// var_dump($this->error);
-
+	
 		$content=$blade->render('admin.categories', [
 					'name' => $_SESSION['username'],
-					'error'=>$this->error,
-					'success'=>$this->success
+					'mes'=>$message
 				]);
 
 		return new HtmlResponse($content);
 }
-private function AddCategory($title){
+private function AddCategory($title, &$message){
 	$count = DB::table('categories')->where('title', '=', $title)->count();
 	if($count==0){
-	// echo "string2";
-
 		DB::table('categories')->insert(
     	array('title' => $title)
 		);
-		$this->success=true;
+		$message.="Добавлено";
 	}
 	else
 	{
-	$this->error=true;
-	// echo "string";
+		$message.="Не добавлено. Категория уже существует";
 	}
+	
 }
 
 

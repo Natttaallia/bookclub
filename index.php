@@ -68,8 +68,10 @@ include (__DIR__ . '/vendor/autoload.php');
 		$map->get('categories', '/categories', App\controllers\admin\CategoriesController::class);
 		$map->post('categoriesAdd', '/categories', App\controllers\admin\CategoriesController::class);
 
-		// admin.category
+		// admin.author
 		$map->get('authors', '/authors', App\controllers\admin\AuthorsController::class);
+		$map->post('authorsAdd', '/authors', App\controllers\admin\AuthorsController::class);
+
 	});
 
 	// $map->get('cabinet', '/cabinet',App\controllers\PersonalController::class);
